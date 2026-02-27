@@ -208,7 +208,6 @@ export default function Home() {
   });
   const toolsControls = useAnimation();
   const [showLogo, setShowLogo] = useState(false);
-  const [logoTilt, setLogoTilt] = useState({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
   const [marqueeShift, setMarqueeShift] = useState(0);
   const [marqueeCopies, setMarqueeCopies] = useState(2);
   const [activeNavItem, setActiveNavItem] = useState<(typeof navItems)[number] | null>(null);
@@ -227,26 +226,6 @@ export default function Home() {
   const handleCapabilitySelect = (capability: string) => {
     if (capability === selectedCapability) return;
     setSelectedCapability(capability);
-  };
-
-  const handleLogoMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!showLogo) return;
-
-    const rect = event.currentTarget.getBoundingClientRect();
-    const relativeX = (event.clientX - rect.left) / rect.width - 0.5;
-    const relativeY = (event.clientY - rect.top) / rect.height - 0.5;
-    const maxTilt = 7;
-
-    setLogoTilt({
-      rotateX: -relativeY * maxTilt,
-      rotateY: relativeX * maxTilt,
-      glowX: (relativeX + 0.5) * 100,
-      glowY: (relativeY + 0.5) * 100,
-    });
-  };
-
-  const handleLogoMouseLeave = () => {
-    setLogoTilt({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
   };
 
   useEffect(() => {
@@ -539,12 +518,7 @@ export default function Home() {
 
           {/* Glowing tool grid */}
           <div className="mx-auto mt-6 flex max-w-4xl items-center justify-center">
-            <div
-              className="relative px-10 py-10"
-              ref={toolsRef}
-              onMouseMove={handleLogoMouseMove}
-              onMouseLeave={handleLogoMouseLeave}
-            >
+            <div className="relative px-10 py-10" ref={toolsRef}>
               {/* Large blue glow behind tools */}
               <div className="pointer-events-none absolute -inset-x-16 -inset-y-10 z-0 rounded-[60px] bg-[#0000d8] blur-3xl opacity-90" />
               <div className="relative z-10 grid grid-cols-4 gap-5 text-xs text-[#f8fafc] sm:text-sm">
@@ -564,17 +538,11 @@ export default function Home() {
                 {showLogo && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.6 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      rotateX: logoTilt.rotateX,
-                      rotateY: logoTilt.rotateY,
-                    }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{
                       duration: 0.28,
                       ease: [0.22, 0.61, 0.36, 1],
                     }}
-                    style={{ transformPerspective: 900 }}
                     className="pointer-events-none absolute inset-0 flex items-center justify-center"
                   >
                     <div className="relative h-full w-full overflow-hidden rounded-2xl">
@@ -584,14 +552,6 @@ export default function Home() {
                         fill
                         className="rounded-2xl object-contain"
                         priority
-                      />
-                      <motion.div
-                        aria-hidden
-                        animate={{
-                          background: `radial-gradient(circle at ${logoTilt.glowX}% ${logoTilt.glowY}%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 46%)`,
-                        }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute inset-0"
                       />
                     </div>
                   </motion.div>
@@ -609,9 +569,9 @@ export default function Home() {
         </section>
 
         {/* Three-column capabilities section - full-width light */}
-        <section className="relative left-1/2 w-screen -translate-x-1/2 bg-white px-4 py-20 text-[#0a0e27] sm:px-8 lg:px-12">
+        <section className="relative z-10 left-1/2 w-screen -translate-x-1/2 bg-white px-4 py-20 text-[#0a0e27] sm:px-8 lg:px-12">
           <div className="mx-auto max-w-6xl space-y-16">
-            <div className="grid gap-10 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#0000d8] sm:grid-cols-3 sm:text-[12px] lg:text-[13px]">
+            <div className="relative z-10 grid gap-10 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#0000d8] sm:grid-cols-3 sm:text-[12px] lg:text-[13px]">
               {capabilityColumns.map((column, columnIndex) => (
                 <ul
                   key={`capability-column-${columnIndex}`}
@@ -621,22 +581,23 @@ export default function Home() {
                 >
                   {column.map((capability) => {
                     const isActive = capability === selectedCapability;
+                    const alignClass =
+                      columnIndex === 0
+                        ? "items-start"
+                        : columnIndex === 1
+                          ? "items-center"
+                          : "items-end";
                     return (
-                      <li key={capability}>
+                      <li key={capability} className={alignClass}>
                         <button
                           type="button"
                           onClick={() => handleCapabilitySelect(capability)}
-                          className={`inline-flex items-center gap-2 border-b border-transparent py-0.5 transition-all duration-300 ${
+                          className={`relative z-10 inline-flex rounded-full !px-4 !py-1 transition-all duration-300 ${
                             isActive
-                              ? "border-[#0000d8] text-[#0000d8]"
+                              ? "!bg-[#0000d8] text-white"
                               : "text-[#0000d8]/70 hover:text-[#0000d8]"
-                          }`}
+                          } ${alignClass}`}
                         >
-                          <span
-                            className={`h-1.5 w-1.5 rounded-full transition-all ${
-                              isActive ? "bg-[#0000d8] opacity-100" : "bg-[#0000d8] opacity-0"
-                            }`}
-                          />
                           {capability}
                         </button>
                       </li>
