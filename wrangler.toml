@@ -1,0 +1,9 @@
+# Cloudflare Pages + Next.js (@cloudflare/next-on-pages)
+# See: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "mld-marketing"
+pages_build_output_dir = ".vercel/output/static"
+
+# Required for Next.js on Cloudflare Workers (Node.js APIs)
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
