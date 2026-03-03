@@ -135,7 +135,13 @@ export default function Home() {
   const [selectedCapability, setSelectedCapability] = useState<string>(capabilityColumns[0].items[0]);
   const [openAccordion, setOpenAccordion] = useState<number>(0);
   const sweepDirection = 1 as const;
-  const logoItems = [1, 2, 3, 4, 5];
+  const logoItems = [
+    { src: "/PartnersPictures/logo-transparant.png", alt: "What Da House" },
+    { src: "/PartnersPictures/songstats.svg", alt: "Songstats" },
+    { src: "/PartnersPictures/4878-27853-paraiso-logo-test-website-a92a019f3374201e.png", alt: "Paraiso" },
+    { src: "/PartnersPictures/Alternative_Distribution_Alliance_logo.svg", alt: "Alternative Distribution Alliance" },
+    { src: "/PartnersPictures/si-x_logo-black-web-2.png", alt: "Start it X" },
+  ];
   const flatCapabilities: string[] = capabilityColumns.flatMap((col) => [...col.items]);
   const selectedCapabilityIndex = Math.max(
     0,
@@ -299,12 +305,19 @@ export default function Home() {
                       ref={copyIndex === 0 ? logoMarqueeSetRef : undefined}
                       className="flex items-center gap-5 pr-5 sm:gap-10 sm:pr-10"
                     >
-                      {logoItems.map((i) => (
+                      {logoItems.map((item, i) => (
                         <div
                           key={`${copyIndex}-${i}`}
-                          className="flex shrink-0 items-center justify-center rounded-full bg-[#0000d8] px-4 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f8fafc] sm:px-8 sm:py-4 sm:text-[14px]"
+                          className="relative flex shrink-0 items-center justify-center px-4 sm:px-6"
                         >
-                          Logo {i}
+                          <Image
+                            src={item.src}
+                            alt={item.alt}
+                            width={120}
+                            height={48}
+                            unoptimized
+                            className="h-8 w-auto object-contain opacity-70 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-12"
+                          />
                         </div>
                       ))}
                     </div>
