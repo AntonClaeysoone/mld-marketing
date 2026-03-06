@@ -1,30 +1,47 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 0.61, 0.36, 1] as const } },
-};
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup">("login");
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   return (
     <div className="flex min-h-screen flex-col bg-[#0a0e27] lg:flex-row">
       <Navbar />
 
-      {/* Left panel - branding */}
+      {/* Left panel — branding with animated gradient */}
       <div className="relative hidden flex-1 flex-col justify-between overflow-hidden p-12 lg:flex xl:p-16">
-        <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#0000d8]/30 blur-[100px]" />
-        <div className="pointer-events-none absolute right-10 top-1/3 h-48 w-48 rounded-full bg-[#1d4ed8]/20 blur-[80px]" />
+        {/* Animated gradient blobs */}
+        <motion.div
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -40, 20, 0],
+            scale: [1, 1.15, 0.95, 1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#0000d8]/30 blur-[100px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, -20, 30, 0],
+            y: [0, 30, -20, 0],
+            scale: [1, 0.9, 1.1, 1],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+          className="pointer-events-none absolute right-10 top-1/3 h-48 w-48 rounded-full bg-[#1d4ed8]/20 blur-[80px]"
+        />
+        <motion.div
+          animate={{
+            x: [0, 15, -15, 0],
+            y: [0, -20, 25, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+          className="pointer-events-none absolute left-1/3 top-1/4 h-32 w-32 rounded-full bg-[#93c5fd]/10 blur-[60px]"
+        />
 
         <div className="relative z-10 pt-24">
           <Link href="/" className="text-[14px] font-black uppercase tracking-[0.3em] text-white">
@@ -33,13 +50,45 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10 space-y-6">
-          <h2 className="text-[36px] font-black leading-[1.08] text-white xl:text-[48px]">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[36px] font-black leading-[1.08] text-white xl:text-[48px]"
+          >
             The operating system for{" "}
             <span className="text-[#93c5fd]">record labels.</span>
-          </h2>
-          <p className="max-w-md text-[17px] leading-relaxed text-[#bfdbfe]">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-md text-[17px] leading-relaxed text-[#bfdbfe]"
+          >
             Join hundreds of labels managing their entire workflow from one connected platform.
-          </p>
+          </motion.p>
+
+          {/* Social proof */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-4 flex items-center gap-3 rounded-xl border border-[#1e293b] bg-[#020617]/40 px-5 py-4 backdrop-blur-sm"
+          >
+            <div className="flex -space-x-2">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="h-8 w-8 rounded-full border-2 border-[#020617] bg-gradient-to-br from-[#93c5fd] to-[#0000d8]"
+                  style={{ opacity: 1 - i * 0.15 }}
+                />
+              ))}
+            </div>
+            <div>
+              <p className="text-[13px] font-semibold text-white">500+ labels onboarded</p>
+              <p className="text-[12px] text-[#94a3b8]">Trusted by independents and majors</p>
+            </div>
+          </motion.div>
         </div>
 
         <div className="relative z-10 flex items-center gap-6 text-[13px] text-[#64748b]">
@@ -48,107 +97,146 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right panel - form */}
+      {/* Right panel — form */}
       <div className="flex flex-1 items-center justify-center px-6 py-32 lg:py-12">
         <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="w-full max-w-md"
         >
           {/* Mobile logo */}
-          <motion.div variants={fadeUp} className="mb-10 lg:hidden">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-10 lg:hidden"
+          >
             <Link href="/" className="text-[14px] font-black uppercase tracking-[0.3em] text-white">
               MYLABELDESK
             </Link>
           </motion.div>
 
           {/* Mode toggle */}
-          <motion.div variants={fadeUp} className="flex gap-1 rounded-full bg-[#1e293b] p-1">
-            <button
-              type="button"
-              onClick={() => setMode("login")}
-              className={`flex-1 rounded-full py-3 text-[13px] font-semibold uppercase tracking-[0.18em] transition-all ${
-                mode === "login" ? "bg-[#0000d8] text-white" : "text-[#94a3b8]"
-              }`}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("signup")}
-              className={`flex-1 rounded-full py-3 text-[13px] font-semibold uppercase tracking-[0.18em] transition-all ${
-                mode === "signup" ? "bg-[#0000d8] text-white" : "text-[#94a3b8]"
-              }`}
-            >
-              Sign up
-            </button>
-          </motion.div>
+          <div className="flex gap-1 rounded-full bg-[#1e293b] p-1">
+            {(["login", "signup"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => setMode(m)}
+                className={`relative flex-1 rounded-full py-3 text-[13px] font-semibold uppercase tracking-[0.18em] transition-colors duration-200 ${
+                  mode === m ? "text-white" : "text-[#94a3b8]"
+                }`}
+              >
+                {mode === m && (
+                  <motion.div
+                    layoutId="modeToggle"
+                    className="absolute inset-0 rounded-full bg-[#0000d8]"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{m === "login" ? "Login" : "Sign up"}</span>
+              </button>
+            ))}
+          </div>
 
-          <motion.h1
-            variants={fadeUp}
-            className="mt-10 text-[28px] font-black text-white sm:text-[32px]"
-          >
-            {mode === "login" ? "Welcome back" : "Create your workspace"}
-          </motion.h1>
-          <motion.p variants={fadeUp} className="mt-2 text-[15px] text-[#94a3b8]">
-            {mode === "login"
-              ? "Sign in to your MyLabelDesk workspace."
-              : "Start your 14-day free trial. No credit card required."}
-          </motion.p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={mode}
+              initial={{ opacity: 0, x: mode === "login" ? -16 : 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: mode === "login" ? 16 : -16 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1 className="mt-10 text-[28px] font-black text-white sm:text-[32px]">
+                {mode === "login" ? "Welcome back" : "Create your workspace"}
+              </h1>
+              <p className="mt-2 text-[15px] text-[#94a3b8]">
+                {mode === "login"
+                  ? "Sign in to your MyLabelDesk workspace."
+                  : "Start your 14-day free trial. No credit card required."}
+              </p>
 
-          <motion.div variants={fadeUp} className="mt-8 space-y-4">
-            {mode === "signup" && (
-              <div>
-                <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
-                  Label name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Your label"
-                  className="w-full rounded-xl border border-[#1e293b] bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all placeholder:text-[#475569] focus:border-[#0000d8]"
-                />
+              <div className="mt-8 space-y-4">
+                {mode === "signup" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
+                      Label name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Your label"
+                      onFocus={() => setFocusedField("label")}
+                      onBlur={() => setFocusedField(null)}
+                      className={`w-full rounded-xl border bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all duration-300 placeholder:text-[#475569] ${
+                        focusedField === "label"
+                          ? "border-[#0000d8] shadow-[0_0_0_3px_rgba(0,0,216,0.15)]"
+                          : "border-[#1e293b]"
+                      }`}
+                    />
+                  </motion.div>
+                )}
+                <div>
+                  <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="you@label.com"
+                    onFocus={() => setFocusedField("email")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full rounded-xl border bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all duration-300 placeholder:text-[#475569] ${
+                      focusedField === "email"
+                        ? "border-[#0000d8] shadow-[0_0_0_3px_rgba(0,0,216,0.15)]"
+                        : "border-[#1e293b]"
+                    }`}
+                  />
+                </div>
+                <div>
+                  <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    onFocus={() => setFocusedField("password")}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full rounded-xl border bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all duration-300 placeholder:text-[#475569] ${
+                      focusedField === "password"
+                        ? "border-[#0000d8] shadow-[0_0_0_3px_rgba(0,0,216,0.15)]"
+                        : "border-[#1e293b]"
+                    }`}
+                  />
+                </div>
+
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="mt-4 w-full rounded-full bg-[#0000d8] py-4 text-[14px] font-bold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[#1d4ed8]"
+                >
+                  {mode === "login" ? "Sign in" : "Create workspace"}
+                </motion.button>
               </div>
-            )}
-            <div>
-              <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="you@label.com"
-                className="w-full rounded-xl border border-[#1e293b] bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all placeholder:text-[#475569] focus:border-[#0000d8]"
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.14em] text-[#94a3b8]">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full rounded-xl border border-[#1e293b] bg-[#020617] px-4 py-3.5 text-[15px] text-white outline-none transition-all placeholder:text-[#475569] focus:border-[#0000d8]"
-              />
-            </div>
+            </motion.div>
+          </AnimatePresence>
 
-            <button
-              type="button"
-              className="mt-4 w-full rounded-full bg-[#0000d8] py-4 text-[14px] font-bold uppercase tracking-[0.18em] text-white transition-all hover:bg-[#1d4ed8]"
-            >
-              {mode === "login" ? "Sign in" : "Create workspace"}
-            </button>
-          </motion.div>
-
-          <motion.div variants={fadeUp} className="mt-6 flex items-center gap-4">
+          <div className="mt-6 flex items-center gap-4">
             <div className="h-px flex-1 bg-[#1e293b]" />
             <span className="text-[12px] uppercase tracking-[0.14em] text-[#475569]">or</span>
             <div className="h-px flex-1 bg-[#1e293b]" />
-          </motion.div>
+          </div>
 
           <motion.button
-            variants={fadeUp}
             type="button"
-            className="mt-6 flex w-full items-center justify-center gap-3 rounded-full border border-[#1e293b] py-4 text-[14px] font-semibold text-white transition-all hover:border-[#475569]"
+            whileHover={{ scale: 1.01, borderColor: "#475569" }}
+            whileTap={{ scale: 0.99 }}
+            className="mt-6 flex w-full items-center justify-center gap-3 rounded-full border border-[#1e293b] py-4 text-[14px] font-semibold text-white transition-colors"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -160,10 +248,10 @@ export default function LoginPage() {
           </motion.button>
 
           {/* Mobile footer links */}
-          <motion.div variants={fadeUp} className="mt-10 flex justify-center gap-6 text-[13px] text-[#475569] lg:hidden">
+          <div className="mt-10 flex justify-center gap-6 text-[13px] text-[#475569] lg:hidden">
             <Link href="/privacy" className="transition-colors hover:text-[#bfdbfe]">Privacy</Link>
             <Link href="/terms" className="transition-colors hover:text-[#bfdbfe]">Terms</Link>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </div>

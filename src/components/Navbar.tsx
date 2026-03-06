@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
@@ -150,11 +150,79 @@ const megaMenuContent: Record<
   },
 };
 
+function MegaMenuLink({ link, index }: { link: { label: string; href: string }; index: number }) {
+  return (
+    <motion.li
+      initial={{ opacity: 0, x: -8 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: 0.15 + index * 0.03, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <Link
+        href={link.href}
+        className="group/link relative flex items-center gap-2 rounded-lg px-3 py-2 -mx-3 text-left text-[15px] normal-case tracking-normal text-[#94a3b8] transition-colors duration-200 hover:text-white"
+      >
+        <span className="absolute inset-0 rounded-lg bg-white/[0.04] opacity-0 transition-opacity duration-200 group-hover/link:opacity-100" />
+        <span className="relative z-10">{link.label}</span>
+        <svg
+          className="relative z-10 h-3.5 w-3.5 shrink-0 -translate-x-2 opacity-0 transition-all duration-200 group-hover/link:translate-x-0 group-hover/link:opacity-60"
+          viewBox="0 0 16 16"
+          fill="none"
+        >
+          <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </Link>
+    </motion.li>
+  );
+}
+
+function MegaMenuColumn({ column, columnIndex }: { column: { title: string; links: { label: string; href: string }[] }; columnIndex: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.08 + columnIndex * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      className="rounded-2xl border border-[#1e293b]/60 bg-[#020617]/40 p-5 backdrop-blur-sm"
+    >
+      <p className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#7dd3fc]">
+        <span className="h-px w-4 bg-[#7dd3fc]/40" />
+        {column.title}
+      </p>
+      <ul className="mt-4 space-y-0.5">
+        {column.links.map((link, i) => (
+          <MegaMenuLink key={link.label} link={link} index={i} />
+        ))}
+      </ul>
+    </motion.div>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const [activeNavItem, setActiveNavItem] = useState<NavLabel | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeMegaMenu = activeNavItem ? megaMenuContent[activeNavItem] : null;
+
+  const handleMouseEnterNav = (label: NavLabel) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setActiveNavItem(label);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimer.current = setTimeout(() => {
+      setActiveNavItem(null);
+    }, 120);
+  };
+
+  const handleMouseEnterDropdown = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
 
   return (
     <>
@@ -202,7 +270,7 @@ export default function Navbar() {
       </AnimatePresence>
 
       <div
-        onMouseLeave={() => setActiveNavItem(null)}
+        onMouseLeave={handleMouseLeave}
         className="fixed left-1/2 top-5 z-50 w-[calc(100%-2rem)] max-w-6xl -translate-x-1/2 sm:w-[calc(100%-4rem)] lg:w-[calc(100%-6rem)]"
       >
         <header className="flex items-center justify-between gap-5 rounded-full bg-[#0a0e27] px-5 py-4 text-[14px] font-semibold uppercase tracking-[0.2em] text-[#f8fafc] sm:px-12 sm:py-6 sm:text-[15px]">
@@ -226,19 +294,21 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                onMouseEnter={() => setActiveNavItem(item.label)}
-                className={`relative transition-colors ${
+                onMouseEnter={() => handleMouseEnterNav(item.label)}
+                className={`relative transition-colors duration-200 ${
                   activeNavItem === item.label || pathname === item.href
                     ? "text-[#818cf8]"
                     : "hover:text-[#6366f1]"
                 }`}
               >
                 {item.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px bg-[#818cf8] transition-all duration-300 ${
-                    activeNavItem === item.label ? "w-full opacity-100" : "w-0 opacity-0"
-                  }`}
-                />
+                {activeNavItem === item.label && (
+                  <motion.span
+                    layoutId="navUnderline"
+                    className="absolute -bottom-1 left-0 h-[2px] w-full rounded-full bg-[#818cf8]"
+                    transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                  />
+                )}
               </Link>
             ))}
           </nav>
@@ -247,60 +317,104 @@ export default function Navbar() {
         <AnimatePresence>
           {activeMegaMenu && (
             <motion.div
-              initial={{ opacity: 0, y: -12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.985 }}
-              transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
-              className="mt-3 hidden sm:block"
+              initial={{ opacity: 0, y: -8, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -6, height: 0 }}
+              transition={{
+                opacity: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
+                y: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+                height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+              }}
+              onMouseEnter={handleMouseEnterDropdown}
+              className="mt-3 hidden overflow-hidden sm:block"
             >
-              <div className="relative overflow-hidden rounded-[32px] border border-[#1e2a7a] bg-[#0a0e27] p-10 shadow-[0_35px_90px_rgba(2,6,23,0.65)]">
-                <div className="pointer-events-none absolute -top-20 left-10 h-52 w-52 rounded-full bg-[#0000d8]/35 blur-3xl" />
-                <div className="pointer-events-none absolute -bottom-16 right-10 h-56 w-56 rounded-full bg-[#1d4ed8]/30 blur-3xl" />
+              <div className="relative rounded-[28px] border border-[#1e293b]/80 bg-[#0a0e27]/95 p-10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+                {/* Animated accent glow that shifts per menu */}
+                <motion.div
+                  key={`glow-${activeNavItem}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="pointer-events-none absolute -top-20 left-10 h-44 w-44 rounded-full bg-[#0000d8]/25 blur-[80px]"
+                />
+                <motion.div
+                  key={`glow2-${activeNavItem}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="pointer-events-none absolute -bottom-16 right-10 h-48 w-48 rounded-full bg-[#1d4ed8]/20 blur-[80px]"
+                />
 
-                <div className="relative z-10 grid grid-cols-[1.1fr_1.9fr] gap-12">
-                  <div className="space-y-5">
-                    <p className="text-[14px] font-semibold uppercase tracking-[0.25em] text-[#93c5fd]">
-                      {activeMegaMenu.eyebrow}
-                    </p>
-                    <h3 className="text-[36px] font-black leading-[1.06] tracking-tight text-white">
-                      {activeMegaMenu.title}
-                    </h3>
-                    <p className="max-w-md text-[17px] normal-case leading-relaxed tracking-normal text-[#bfdbfe]">
-                      {activeMegaMenu.description}
-                    </p>
-                    <Link
-                      href={activeMegaMenu.cta.href}
-                      className="mt-3 inline-flex items-center rounded-full bg-[#0000d8] px-6 py-3 text-[14px] font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#1d4ed8]"
-                    >
-                      {activeMegaMenu.cta.label}
-                    </Link>
-                  </div>
+                {/* Top subtle border glow */}
+                <div className="pointer-events-none absolute left-8 right-8 top-0 h-px bg-gradient-to-r from-transparent via-[#0000d8]/40 to-transparent" />
 
-                  <div className="grid grid-cols-2 gap-8">
-                    {activeMegaMenu.columns.map((column) => (
-                      <div
-                        key={column.title}
-                        className="rounded-2xl border border-[#1e293b] bg-[#020617]/50 p-5"
-                      >
-                        <p className="text-[14px] font-semibold uppercase tracking-[0.22em] text-[#7dd3fc]">
-                          {column.title}
-                        </p>
-                        <ul className="mt-4 space-y-3">
-                          {column.links.map((link) => (
-                            <li key={link.label}>
-                              <Link
-                                href={link.href}
-                                className="text-left text-[15px] normal-case tracking-normal text-[#e2e8f0] transition-colors hover:text-[#93c5fd]"
-                              >
-                                {link.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeNavItem}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative z-10 grid grid-cols-[1.1fr_1.9fr] gap-10"
+                  >
+                    {/* Left: branding panel */}
+                    <div className="flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <motion.p
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.04, ease: [0.16, 1, 0.3, 1] }}
+                          className="text-[12px] font-semibold uppercase tracking-[0.3em] text-[#93c5fd]"
+                        >
+                          {activeMegaMenu.eyebrow}
+                        </motion.p>
+                        <motion.h3
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                          className="text-[32px] font-black leading-[1.08] tracking-tight text-white"
+                        >
+                          {activeMegaMenu.title}
+                        </motion.h3>
+                        <motion.p
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.35, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                          className="max-w-sm text-[15px] normal-case leading-relaxed tracking-normal text-[#94a3b8]"
+                        >
+                          {activeMegaMenu.description}
+                        </motion.p>
                       </div>
-                    ))}
-                  </div>
-                </div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className="mt-6"
+                      >
+                        <Link
+                          href={activeMegaMenu.cta.href}
+                          className="group/cta inline-flex items-center gap-2 rounded-full bg-[#0000d8] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_8px_24px_rgba(0,0,216,0.3)]"
+                        >
+                          {activeMegaMenu.cta.label}
+                          <svg
+                            className="h-3.5 w-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                          >
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </Link>
+                      </motion.div>
+                    </div>
+
+                    {/* Right: link columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {activeMegaMenu.columns.map((column, ci) => (
+                        <MegaMenuColumn key={column.title} column={column} columnIndex={ci} />
+                      ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </motion.div>
           )}

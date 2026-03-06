@@ -1,10 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useAnimation, useInView } from "framer-motion";
+import { AnimatePresence, type MotionValue, motion, useAnimation, useInView, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
+import {
+  BarChart3,
+  Music,
+  Globe,
+  Sparkles,
+  Handshake,
+} from "lucide-react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -120,10 +129,141 @@ const tools = [
   "Placeholder 4",
 ];
 
+const partnerFeatures = [
+  {
+    Icon: BarChart3,
+    name: "Songstats",
+    description: "Analytics and streaming insights for your catalog and artists.",
+    href: "https://songstats.com",
+    cta: "Learn more",
+    background: (
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-60"
+        />
+      </div>
+    ),
+    className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+  },
+  {
+    Icon: Music,
+    name: "What Da House",
+    description: "Events and community for dance music and labels.",
+    href: "/",
+    cta: "Learn more",
+    background: (
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-60"
+        />
+      </div>
+    ),
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+  },
+  {
+    Icon: Globe,
+    name: "Paraiso",
+    description: "Distribution and rights management across territories.",
+    href: "/",
+    cta: "Learn more",
+    background: (
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-60"
+        />
+      </div>
+    ),
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+  },
+  {
+    Icon: Sparkles,
+    name: "Start it X",
+    description: "Innovation and startup programs for the music industry.",
+    href: "/",
+    cta: "Learn more",
+    background: (
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-60"
+        />
+      </div>
+    ),
+    className: "lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-2",
+  },
+  {
+    Icon: Handshake,
+    name: "Become partner today",
+    description: "Join our network of distribution and technology partners.",
+    href: "/",
+    cta: "Get in touch",
+    background: (
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
+          alt=""
+          fill
+          className="object-cover opacity-60"
+        />
+      </div>
+    ),
+    className: "lg:col-start-3 lg:col-end-4 lg:row-start-2 lg:row-end-4",
+  },
+];
+
+function ScrollWord({ word, range, progress }: { word: string; range: [number, number]; progress: MotionValue<number> }) {
+  const opacity = useTransform(progress, range, [0.12, 1]);
+  return (
+    <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
+      {word}
+    </motion.span>
+  );
+}
+
+function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let current = 0;
+    const step = Math.max(1, Math.floor(target / 40));
+    const interval = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(interval);
+      } else {
+        setCount(current);
+      }
+    }, 30);
+    return () => clearInterval(interval);
+  }, [isInView, target]);
+
+  return <span ref={ref}>{isInView ? count : 0}{suffix}</span>;
+}
+
 export default function Home() {
   const toolsRef = useRef<HTMLDivElement | null>(null);
   const logoMarqueeContainerRef = useRef<HTMLDivElement | null>(null);
   const logoMarqueeSetRef = useRef<HTMLDivElement | null>(null);
+  const capRef = useRef<HTMLDivElement>(null);
+  const revealRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: capProgress } = useScroll({ target: capRef, offset: ["start end", "end start"] });
+  const { scrollYProgress: revealProgress } = useScroll({ target: revealRef, offset: ["start 0.85", "end 0.4"] });
+  const capCardsY = useTransform(capProgress, [0, 1], [50, -25]);
   const toolsInView = useInView(toolsRef, {
     once: true,
     margin: "-20% 0px",
@@ -255,14 +395,14 @@ export default function Home() {
         variants={stagger}
         className="bg-white pb-10 pt-6 text-[#0a0e27] shadow-[0_40px_120px_rgba(10,14,39,0.45)] sm:pb-16 sm:pt-12"
       >
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:gap-8 sm:px-8 lg:px-12">
+        <div className="mx-auto flex w-[calc(100%-2rem)] max-w-6xl flex-col gap-6 sm:w-[calc(100%-4rem)] sm:gap-8 lg:w-[calc(100%-6rem)]">
           <motion.div variants={fadeUp} className="pt-20 sm:pt-28">
             <motion.div variants={titleStagger} className="space-y-2 text-left sm:space-y-4">
               {["THE OPERATING", "SYSTEM", "FOR RECORD", "LABELS"].map((line) => (
                 <motion.div
                   key={line}
                   variants={titleLine}
-                  className="flex items-center gap-3 sm:gap-6 md:gap-8"
+                  className="flex items-center gap-2 sm:gap-4 md:gap-6"
                 >
                   <motion.div
                     variants={pillGrow}
@@ -283,7 +423,7 @@ export default function Home() {
                 duration: 0.6,
                 ease: [0.22, 0.61, 0.36, 1],
               }}
-              className="mt-8 overflow-hidden rounded-full bg-[#e5e7eb] px-4 py-4 shadow-[0_18px_40px_rgba(0,0,216,0.18)] sm:mt-10 sm:px-12 sm:py-8"
+              className="mt-8 overflow-hidden rounded-full bg-[#e5e7eb] px-3 py-4 shadow-[0_18px_40px_rgba(0,0,216,0.18)] sm:mt-10 sm:py-8 sm:px-6"
             >
               <div ref={logoMarqueeContainerRef}>
                 <motion.div
@@ -303,12 +443,12 @@ export default function Home() {
                     <div
                       key={`copy-${copyIndex}`}
                       ref={copyIndex === 0 ? logoMarqueeSetRef : undefined}
-                      className="flex items-center gap-5 pr-5 sm:gap-10 sm:pr-10"
+                      className="flex items-center gap-4 pr-4 sm:gap-8 sm:pr-8"
                     >
                       {logoItems.map((item, i) => (
                         <div
                           key={`${copyIndex}-${i}`}
-                          className="relative flex shrink-0 items-center justify-center px-4 sm:px-6"
+                          className="relative flex shrink-0 items-center justify-center px-2 sm:px-4"
                         >
                           <Image
                             src={item.src}
@@ -443,8 +583,12 @@ export default function Home() {
 
             <div className="relative z-10 hidden gap-12 text-[15px] font-semibold uppercase tracking-[0.18em] text-[#0000d8] sm:grid sm:grid-cols-3 lg:text-[16px]">
               {capabilityColumns.map((column, columnIndex) => (
-                <ul
+                <motion.ul
                   key={`capability-column-${columnIndex}`}
+                  initial={{ opacity: 0, y: 30, x: columnIndex === 0 ? -20 : columnIndex === 2 ? 20 : 0 }}
+                  whileInView={{ opacity: 1, y: 0, x: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, delay: columnIndex * 0.12, ease: [0.16, 1, 0.3, 1] }}
                   className={`space-y-3 ${
                     columnIndex === 1 ? "text-center" : columnIndex === 2 ? "text-right" : ""
                   }`}
@@ -473,12 +617,12 @@ export default function Home() {
                       </li>
                     );
                   })}
-                </ul>
+                </motion.ul>
               ))}
             </div>
 
-            <div className="mt-6">
-              <div className="flex flex-col gap-6 sm:gap-10 md:flex-row md:items-start">
+            <div ref={capRef} className="mt-6">
+              <motion.div style={{ y: capCardsY }} className="flex flex-col gap-6 sm:gap-10 md:flex-row md:items-start">
                 <div className="relative h-56 flex-1 overflow-hidden rounded-[24px] sm:h-80 sm:rounded-[32px] md:flex-[1.6]">
                   <AnimatePresence mode="wait" custom={sweepDirection}>
                     <motion.div
@@ -563,37 +707,121 @@ export default function Home() {
                     </motion.div>
                   </AnimatePresence>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             <div className="pt-6 text-center space-y-8 sm:pt-10 sm:space-y-12">
-              <h2 className="text-[28px] font-black leading-[1.06] uppercase tracking-[0.18em] text-[#0000d8] sm:text-[42px] sm:tracking-[0.26em] md:text-[52px] lg:text-[66px]">
+              <motion.h2
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[28px] font-black leading-[1.06] uppercase tracking-[0.18em] text-[#0000d8] sm:text-[42px] sm:tracking-[0.26em] md:text-[52px] lg:text-[66px]"
+              >
                 Our partners
-              </h2>
+              </motion.h2>
 
-              <div className="space-y-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                  <div className="h-56 flex-1 rounded-[24px] bg-gradient-to-b from-[#020617] via-[#0000d8]/40 to-[#020617] shadow-[0_40px_80px_rgba(0,0,0,0.45)] sm:h-72 sm:rounded-[32px]" />
-                  <div className="h-56 flex-1 rounded-[24px] bg-gradient-to-b from-[#020617] via-[#0000d8]/40 to-[#020617] shadow-[0_40px_80px_rgba(0,0,0,0.45)] sm:h-72 sm:rounded-[32px]" />
-                  <div className="h-56 flex-1 rounded-[24px] bg-gradient-to-b from-[#020617] via-[#0000d8]/40 to-[#020617] shadow-[0_40px_80px_rgba(0,0,0,0.45)] sm:h-72 sm:rounded-[32px]" />
-                </div>
-
-                <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                  <div className="h-56 flex-1 rounded-[24px] bg-gradient-to-b from-[#020617] via-[#0000d8]/40 to-[#020617] shadow-[0_40px_80px_rgba(0,0,0,0.45)] sm:h-72 sm:rounded-[32px]" />
-                  <div className="h-56 flex-1 rounded-[24px] bg-gradient-to-b from-[#020617] via-[#0000d8]/40 to-[#020617] shadow-[0_40px_80px_rgba(0,0,0,0.45)] sm:h-72 sm:rounded-[32px]" />
-
-                  <div className="flex flex-col gap-4 self-stretch sm:w-72 sm:gap-8">
-                    <div className="flex h-56 items-center justify-center rounded-[24px] bg-gradient-to-b from-[#0000d8] via-[#1d4ed8] to-[#0000d8] text-center text-[14px] font-semibold uppercase tracking-[0.22em] text-white sm:h-72 sm:rounded-[32px] sm:text-[17px]">
-                      Become partner today
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative left-1/2 w-[calc(100vw-2rem)] max-w-5xl -translate-x-1/2 sm:w-[calc(100vw-4rem)] lg:w-[calc(100vw-6rem)]"
+              >
+                <BentoGrid className="lg:grid-rows-3">
+                  {partnerFeatures.map((feature) => (
+                    <BentoCard key={feature.name} {...feature} />
+                  ))}
+                </BentoGrid>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        <Footer />
+        {/* Scroll-linked text reveal */}
+        <section ref={revealRef} className="relative left-1/2 w-screen -translate-x-1/2 px-4 py-24 sm:px-8 sm:py-40 lg:px-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="flex flex-wrap text-[26px] font-black leading-[1.35] tracking-tight text-[#f8fafc] sm:text-[38px] md:text-[50px] lg:text-[62px]">
+              {("One platform to scout, plan, ship, and grow. No more switching between tools. No more lost context. Just your label, running at full speed.").split(" ").map((word, i, arr) => {
+                const start = i / arr.length;
+                const end = start + 1 / arr.length;
+                return <ScrollWord key={i} word={word} range={[start, end]} progress={revealProgress} />;
+              })}
+            </p>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <section className="relative left-1/2 w-screen -translate-x-1/2 border-t border-[#1e293b] px-4 py-20 sm:px-8 sm:py-28 lg:px-12">
+          <div className="mx-auto grid max-w-5xl gap-10 sm:grid-cols-3 sm:gap-12">
+            {[
+              { value: 500, suffix: "+", label: "Labels onboarded" },
+              { value: 10000, suffix: "+", label: "Releases managed" },
+              { value: 99, suffix: ".9%", label: "Platform uptime" },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="text-center sm:text-left"
+              >
+                <p className="text-[48px] font-black leading-none text-white sm:text-[56px] md:text-[72px]">
+                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                </p>
+                <p className="mt-3 text-[13px] uppercase tracking-[0.2em] text-[#64748b] sm:text-[14px]">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden px-4 py-24 sm:px-8 sm:py-32 lg:px-12">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0e27] via-[#0000d8]/20 to-[#0a0e27]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0000d8]/15 blur-[120px]" />
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 mx-auto max-w-3xl text-center"
+          >
+            <h2 className="text-[32px] font-black leading-[1.06] text-white sm:text-[48px] md:text-[64px]">
+              Ready to run your label{" "}
+              <span className="bg-gradient-to-r from-[#93c5fd] to-[#0000d8] bg-clip-text text-transparent">smarter?</span>
+            </h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto mt-6 max-w-lg text-[17px] leading-relaxed text-[#bfdbfe] sm:text-[19px]"
+            >
+              Start your 14-day free trial. No credit card required.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10"
+            >
+              <Link
+                href="/login"
+                className="inline-flex items-center rounded-full bg-white px-10 py-5 text-[14px] font-bold uppercase tracking-[0.2em] text-[#0000d8] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_30px_rgba(255,255,255,0.15)]"
+              >
+                Get started free
+              </Link>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        <div className="relative left-1/2 w-screen -translate-x-1/2 bg-white px-4 sm:px-8 lg:px-12">
+          <Footer />
+        </div>
       </main>
     </div>
   );
