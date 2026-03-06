@@ -133,8 +133,8 @@ export default function TermsPage() {
             </motion.div>
           ))}
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }

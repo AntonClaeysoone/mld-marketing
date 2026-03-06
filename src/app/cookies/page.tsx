@@ -161,8 +161,8 @@ export default function CookiesPage() {
             </p>
           </motion.div>
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }

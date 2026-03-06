@@ -314,7 +314,7 @@ export default function SolutionsPage() {
               className="relative mt-8"
             >
               <Link
-                href="/login"
+                href="/get-started"
                 className="inline-flex items-center rounded-full bg-white px-8 py-4 text-[14px] font-bold uppercase tracking-[0.2em] text-[#0000d8] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_30px_rgba(255,255,255,0.2)]"
               >
                 Get started
@@ -322,8 +322,8 @@ export default function SolutionsPage() {
             </motion.div>
           </motion.div>
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }

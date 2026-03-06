@@ -127,8 +127,8 @@ export default function PrivacyPage() {
             </motion.div>
           ))}
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }

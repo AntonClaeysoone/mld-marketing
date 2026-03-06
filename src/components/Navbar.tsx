@@ -9,13 +9,15 @@ const navItems = [
   { label: "SOLUTIONS", href: "/solutions" },
   { label: "PRICING", href: "/pricing" },
   { label: "AI", href: "/ai" },
-  { label: "LOGIN/SIGNUP", href: "/login" },
 ] as const;
 
+const ctaItem = { label: "GET STARTED", href: "/get-started" } as const;
+
 type NavLabel = (typeof navItems)[number]["label"];
+type MegaMenuLabel = NavLabel;
 
 const megaMenuContent: Record<
-  NavLabel,
+  MegaMenuLabel,
   {
     eyebrow: string;
     title: string;
@@ -116,37 +118,6 @@ const megaMenuContent: Record<
       },
     ],
     cta: { label: "See AI capabilities", href: "/ai" },
-  },
-  "LOGIN/SIGNUP": {
-    eyebrow: "Access",
-    title: "Secure access for every role",
-    description:
-      "Invite your team, assign permissions, and start collaborating with secure workspace access in minutes.",
-    columns: [
-      {
-        title: "Get started",
-        links: [
-          { label: "Create workspace", href: "/login" },
-          { label: "Invite collaborators", href: "/login" },
-          { label: "Set profile preferences", href: "/login" },
-          { label: "Connect your tools", href: "/login" },
-        ],
-      },
-      {
-        title: "Security & Support",
-        links: [
-          { label: "Two-factor authentication", href: "/login" },
-          { label: "Session controls", href: "/login" },
-          { label: "Role-based access", href: "/login" },
-          { label: "Audit history", href: "/login" },
-          { label: "Live onboarding", href: "/login" },
-          { label: "Knowledge center", href: "/login" },
-          { label: "Customer success", href: "/login" },
-          { label: "Contact sales", href: "/login" },
-        ],
-      },
-    ],
-    cta: { label: "Login or create account", href: "/login" },
   },
 };
 
@@ -264,6 +235,19 @@ export default function Navbar() {
                   </Link>
                 </motion.div>
               ))}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.08 * navItems.length, duration: 0.35 }}
+              >
+                <Link
+                  href={ctaItem.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="rounded-full bg-[#0000d8] px-8 py-3 text-[20px] font-bold uppercase tracking-[0.25em] text-white transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_8px_24px_rgba(0,0,216,0.3)]"
+                >
+                  {ctaItem.label}
+                </Link>
+              </motion.div>
             </nav>
           </motion.div>
         )}
@@ -311,6 +295,13 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
+            <Link
+              href={ctaItem.href}
+              onMouseEnter={() => setActiveNavItem(null)}
+              className="rounded-full bg-[#0000d8] px-6 py-2.5 text-[13px] font-bold tracking-[0.18em] text-white transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_8px_24px_rgba(0,0,216,0.3)]"
+            >
+              {ctaItem.label}
+            </Link>
           </nav>
         </header>
 

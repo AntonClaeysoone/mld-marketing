@@ -223,7 +223,7 @@ function PricingCard({
       </ul>
 
       <Link
-        href="/login"
+        href="/get-started"
         className={`mt-10 block w-full rounded-full py-4 text-center text-[14px] font-bold uppercase tracking-[0.18em] transition-all duration-300 hover:scale-[1.02] ${
           plan.highlighted
             ? "bg-white text-[#0000d8] hover:shadow-[0_8px_30px_rgba(255,255,255,0.15)]"
@@ -413,8 +413,8 @@ export default function PricingPage() {
             </div>
           </div>
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }

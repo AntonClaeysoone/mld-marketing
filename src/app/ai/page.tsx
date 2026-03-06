@@ -324,15 +324,15 @@ export default function AIPage() {
             className="pt-4 text-center"
           >
             <Link
-              href="/login"
+              href="/get-started"
               className="inline-flex items-center rounded-full bg-[#0000d8] px-10 py-5 text-[14px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:scale-[1.04] hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(0,0,216,0.3)]"
             >
               Try AI features
             </Link>
           </motion.div>
         </div>
-        <Footer />
       </section>
+      <Footer />
     </div>
   );
 }
