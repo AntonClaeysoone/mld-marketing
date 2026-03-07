@@ -8,67 +8,81 @@ import Footer from "@/components/Footer";
 
 const solutions = [
   {
-    id: "ar",
-    category: "Discovery",
-    title: "A&R Workspace",
-    description: "Scout, evaluate, and sign talent from one unified pipeline.",
-    features: ["Artist scouting pipeline", "Demo review queue", "Opportunity scoring", "Digital deal memos"],
+    id: "review",
+    category: "Input & Decision",
+    title: "Internally Review & Decide",
+    description: "Make signing decisions transparent and logged. Structured review workflows keep everyone aligned.",
+    features: ["Reduced approval cycles", "Complete decision history", "Team voting and approvals", "Structured review workflows"],
   },
   {
-    id: "releases",
-    category: "Planning",
-    title: "Release Planning",
-    description: "Orchestrate every milestone from recording to launch day.",
-    features: ["Timeline builder", "Milestone tracking", "Team assignments", "Deadline alerts"],
+    id: "messaging",
+    category: "Input & Decision",
+    title: "Messaging System",
+    description: "Keep all label communication tied to releases and decisions. No more lost context in email threads.",
+    features: ["Searchable message history", "File sharing in context", "Team and artist messaging", "Communication tied to releases"],
   },
   {
-    id: "tasks",
-    category: "Operations",
-    title: "Task Orchestration",
-    description: "Assign, track, and automate tasks across your entire team.",
-    features: ["Kanban & list views", "Auto-assignments", "Priority levels", "Progress dashboards"],
+    id: "intake",
+    category: "Input & Decision",
+    title: "Gather Information",
+    description: "Standardize how information enters your system. Structured intake reduces missing data and speeds up onboarding.",
+    features: ["Consistent information structure", "File uploads and attachments", "Automated data collection", "Standardized intake forms"],
   },
   {
-    id: "contributors",
-    category: "People",
-    title: "Contributor Management",
-    description: "Centralize every artist, writer, producer, and collaborator.",
-    features: ["Unified profiles", "Credit tracking", "Split management", "Contact directory"],
+    id: "structurize",
+    category: "Structure & Operations",
+    title: "Structurize",
+    description: "Turn ad-hoc processes into repeatable workflows. Templates and automation ensure consistency across every release.",
+    features: ["Consistent operations", "Custom data structures", "Automated process steps", "Repeatable workflow templates"],
   },
   {
-    id: "metadata",
-    category: "Data",
-    title: "Metadata Control",
-    description: "Ensure every track ships with complete, accurate metadata.",
-    features: ["ISRC generation", "Credit validation", "Format compliance", "Bulk editing"],
+    id: "artists",
+    category: "Structure & Operations",
+    title: "Artist Overview",
+    description: "Single source of truth for every artist. See their complete history, active contracts, and current status in one place.",
+    features: ["Performance overview", "Release catalog and status", "Active contracts and terms", "Complete artist history"],
   },
   {
-    id: "assets",
-    category: "Creative",
-    title: "Asset Collection",
-    description: "Collect artwork, stems, masters, and promo materials in one vault.",
-    features: ["Upload portal", "Version control", "Approval flows", "Format conversion"],
+    id: "writers",
+    category: "Structure & Operations",
+    title: "Writers Overview",
+    description: "Track songwriting credits and splits across all releases. Maintain accurate records for royalty distribution and legal compliance.",
+    features: ["Royalty-ready records", "Collaboration history", "Split tracking across releases", "Writer profiles and credits"],
   },
   {
-    id: "distribution",
-    category: "Delivery",
-    title: "Distribution Setup",
-    description: "Prepare delivery packages and launch across all platforms.",
-    features: ["DSP formatting", "Pre-save campaigns", "Territory settings", "Launch checklists"],
+    id: "playlists",
+    category: "Structure & Operations",
+    title: "Playlist Overview",
+    description: "Organize and track playlists alongside releases. See what's performing and maintain clear curation workflows.",
+    features: ["Curation workflows", "Performance insights", "Track placement tracking", "Playlist organization"],
   },
   {
     id: "contracts",
-    category: "Legal",
-    title: "Contract Automation",
-    description: "Generate, send, and track contracts with built-in templates.",
-    features: ["Template library", "E-signatures", "Renewal alerts", "Clause management"],
+    category: "Contracts, Data & Output",
+    title: "Contract Generation",
+    description: "Generate contracts with correct metadata automatically. Version control and e-signature integration reduce errors and delays.",
+    features: ["Version control and history", "E-signature integration", "Auto-filled from release data", "Template-based generation"],
   },
   {
-    id: "catalog",
-    category: "Catalog",
-    title: "Catalog Lifecycle",
-    description: "Manage rights, royalties, and long-tail performance over time.",
-    features: ["Rights tracking", "Royalty calculations", "Performance analytics", "Re-release workflows"],
+    id: "statistics",
+    category: "Contracts, Data & Output",
+    title: "Track Artist / Statistics",
+    description: "Monitor performance across releases and artists. Real-time metrics help you make informed decisions about future signings.",
+    features: ["Custom dashboards", "Social media metrics", "Streaming and sales analytics", "Real-time performance tracking"],
+  },
+  {
+    id: "reports",
+    category: "Contracts, Data & Output",
+    title: "Autogenerate Reports",
+    description: "Generate reports for stakeholders on schedule. Financial summaries, release status, and compliance data without manual work.",
+    features: ["Automated distribution", "Multi-format exports", "Custom report templates", "Scheduled report generation"],
+  },
+  {
+    id: "whitelabel",
+    category: "Scale & Brand",
+    title: "Whitelabel",
+    description: "Present MyLabelDesk as your own platform. Custom branding builds trust with artists, partners, and external stakeholders.",
+    features: ["Branded emails and portals", "Theming controls", "Branded login and navigation", "Custom domain with SSL"],
   },
 ] as const;
 
@@ -136,8 +150,8 @@ export default function SolutionsPage() {
     ? solutions.filter((s) => s.category === activeCategory)
     : solutions;
 
-  const headingLine1 = ["Every", "tool", "a", "label", "needs."];
-  const headingLine2 = ["One", "platform."];
+  const headingLine1 = ["From", "demo", "intake"];
+  const headingLine2 = ["to", "signed", "releases."];
 
   return (
     <div className="min-h-screen bg-[#0a0e27] text-[#0a0e27]">
@@ -158,7 +172,7 @@ export default function SolutionsPage() {
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#0000d8]"
             >
-              Platform
+              Features
             </motion.p>
 
             <h1 className="mt-6 text-[36px] font-black leading-[1.04] tracking-tight text-[#0a0e27] sm:text-[56px] md:text-[72px] lg:text-[88px]">
@@ -187,7 +201,7 @@ export default function SolutionsPage() {
                     delay: 0.45 + i * 0.055,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className={`mr-[0.22em] inline-block ${i === 1 ? "text-[#0000d8]" : ""}`}
+                  className={`mr-[0.22em] inline-block ${i === 2 ? "text-[#0000d8]" : ""}`}
                 >
                   {word}
                 </motion.span>
@@ -200,8 +214,8 @@ export default function SolutionsPage() {
               transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="mt-8 max-w-xl text-[17px] leading-[1.7] text-[#64748b] sm:text-[19px]"
             >
-              From scouting artists to shipping releases, MyLabelDesk replaces the patchwork of
-              tools with one connected operating system.
+              One structured system for label operations. Every decision, contract, and release
+              tracked from intake to reporting.
             </motion.p>
           </div>
         </motion.div>
@@ -295,7 +309,7 @@ export default function SolutionsPage() {
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="relative text-[28px] font-black text-white sm:text-[40px]"
             >
-              Ready to unify your label?
+              Ready to streamline your label?
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -304,7 +318,7 @@ export default function SolutionsPage() {
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="relative mx-auto mt-4 max-w-lg text-[16px] text-[#bfdbfe] sm:text-[18px]"
             >
-              See how MyLabelDesk connects every workflow into one powerful platform.
+              See how leading labels use MyLabelDesk to automate workflows and stay organized.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}

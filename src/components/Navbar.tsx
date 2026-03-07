@@ -27,35 +27,34 @@ const megaMenuContent: Record<
   }
 > = {
   SOLUTIONS: {
-    eyebrow: "Platform",
-    title: "Built for modern record labels",
+    eyebrow: "Features",
+    title: "From demo intake to signed releases",
     description:
-      "Unify A&R, release planning, contracts, assets, and distribution in one intelligent operating system.",
+      "One structured system for label operations. Every decision, contract, and release tracked from intake to reporting.",
     columns: [
       {
-        title: "Core operations",
+        title: "Input & Operations",
         links: [
-          { label: "A&R workspace", href: "/solutions#ar" },
-          { label: "Release planning", href: "/solutions#releases" },
-          { label: "Task orchestration", href: "/solutions#tasks" },
-          { label: "Contributor management", href: "/solutions#contributors" },
+          { label: "Review & decide", href: "/solutions#review" },
+          { label: "Messaging system", href: "/solutions#messaging" },
+          { label: "Gather information", href: "/solutions#intake" },
+          { label: "Structurize", href: "/solutions#structurize" },
+          { label: "Artist overview", href: "/solutions#artists" },
+          { label: "Writers overview", href: "/solutions#writers" },
         ],
       },
       {
-        title: "Creative + Business",
+        title: "Contracts, Data & Scale",
         links: [
-          { label: "Metadata control", href: "/solutions#metadata" },
-          { label: "Asset collection", href: "/solutions#assets" },
-          { label: "Distribution setup", href: "/solutions#distribution" },
-          { label: "Quality checks", href: "/solutions#quality" },
-          { label: "Contract automation", href: "/solutions#contracts" },
-          { label: "Rights management", href: "/solutions#rights" },
-          { label: "Catalog lifecycle", href: "/solutions#catalog" },
-          { label: "Performance tracking", href: "/solutions#performance" },
+          { label: "Playlist overview", href: "/solutions#playlists" },
+          { label: "Contract generation", href: "/solutions#contracts" },
+          { label: "Track artist / statistics", href: "/solutions#statistics" },
+          { label: "Autogenerate reports", href: "/solutions#reports" },
+          { label: "Whitelabel", href: "/solutions#whitelabel" },
         ],
       },
     ],
-    cta: { label: "Explore all solutions", href: "/solutions" },
+    cta: { label: "Explore all features", href: "/solutions" },
   },
   PRICING: {
     eyebrow: "Plans",
@@ -89,35 +88,34 @@ const megaMenuContent: Record<
     cta: { label: "Compare plans", href: "/pricing" },
   },
   AI: {
-    eyebrow: "Intelligence",
-    title: "AI copilots for every label workflow",
+    eyebrow: "Label Intelligence",
+    title: "Meet Dave, your AI assistant",
     description:
-      "Accelerate decisions with AI that understands projects, deadlines, catalogs, and release readiness.",
+      "Dave works seamlessly with your label data. He helps labels work smarter, faster, and with more clarity.",
     columns: [
       {
-        title: "Creative support",
+        title: "Understand & Analyze",
         links: [
-          { label: "Track triage", href: "/ai#creative" },
-          { label: "Opportunity scoring", href: "/ai#creative" },
-          { label: "Artist insights", href: "/ai#creative" },
-          { label: "Campaign ideas", href: "/ai#creative" },
+          { label: "Catalog queries", href: "/ai#catalog" },
+          { label: "Credits & splits", href: "/ai#catalog" },
+          { label: "Streaming statistics", href: "/ai#catalog" },
+          { label: "Prioritized task lists", href: "/ai#insight" },
+          { label: "Blocker detection", href: "/ai#insight" },
+          { label: "Deadline warnings", href: "/ai#insight" },
         ],
       },
       {
-        title: "Operations + Executive",
+        title: "Execute & Operate",
         links: [
-          { label: "Metadata suggestions", href: "/ai#operations" },
-          { label: "Release risk alerts", href: "/ai#operations" },
-          { label: "Timeline optimization", href: "/ai#operations" },
-          { label: "Smart task routing", href: "/ai#operations" },
-          { label: "Weekly intelligence briefs", href: "/ai#executive" },
-          { label: "Portfolio summaries", href: "/ai#executive" },
-          { label: "Forecast snapshots", href: "/ai#executive" },
-          { label: "Trend monitoring", href: "/ai#executive" },
+          { label: "Daily planning", href: "/ai#operations" },
+          { label: "Email drafting", href: "/ai#operations" },
+          { label: "Asset upload links", href: "/ai#operations" },
+          { label: "Add contributors", href: "/ai#operations" },
+          { label: "Artist database", href: "/ai#operations" },
         ],
       },
     ],
-    cta: { label: "See AI capabilities", href: "/ai" },
+    cta: { label: "Meet Dave", href: "/ai" },
   },
 };
 

@@ -8,68 +8,102 @@ import Footer from "@/components/Footer";
 
 const aiCapabilities = [
   {
-    id: "creative",
-    category: "Creative Support",
+    id: "catalog",
+    category: "Understand Your Catalog",
     items: [
       {
-        title: "Track Triage",
-        description: "AI listens and categorizes incoming demos by genre, energy, and potential.",
+        title: "Song Information",
+        description: "Retrieve ISRC, UPC, release dates, and status for any track — just by asking.",
       },
       {
-        title: "Opportunity Scoring",
-        description: "Surface the highest-potential signings based on streaming data and market trends.",
+        title: "Track Versions & Files",
+        description: "Show all versions of a track and their associated files in one overview.",
       },
       {
-        title: "Artist Insights",
-        description: "Automated briefs on an artist's trajectory, audience, and growth potential.",
+        title: "Credits & Splits",
+        description: "Display credits and royalty splits across contributors without clicking through tabs.",
       },
       {
-        title: "Campaign Ideas",
-        description: "Generate release marketing strategies based on genre, audience, and timing.",
+        title: "Contract & Asset Status",
+        description: "Check contract status and identify missing assets instantly through conversation.",
+      },
+      {
+        title: "Streaming Statistics",
+        description: "Surface streaming statistics based on synced data — no dashboards needed.",
+      },
+    ],
+  },
+  {
+    id: "insight",
+    category: "Turn Data Into Insight",
+    items: [
+      {
+        title: "Prioritized Task Lists",
+        description: "Generate a prioritized task list based on missing or incomplete data across releases.",
+      },
+      {
+        title: "Release Comparison",
+        description: "Compare large sets of releases to identify what's most urgent and needs attention first.",
+      },
+      {
+        title: "Deadline Warnings",
+        description: "Get warned about upcoming deadlines before they become blockers.",
+      },
+      {
+        title: "Blocker Detection",
+        description: "Highlight blockers preventing a release from going live so you can act immediately.",
+      },
+      {
+        title: "Daily Priorities",
+        description: "Dave suggests what needs attention today, transforming raw label data into clear action.",
       },
     ],
   },
   {
     id: "operations",
-    category: "Operations",
+    category: "Execute Operational Tasks",
     items: [
       {
-        title: "Metadata Suggestions",
-        description: "Auto-fill credits, ISRC codes, and contributor data from your catalog history.",
+        title: "Daily Planning",
+        description: "Support daily planning by organizing tasks and follow-ups across your team.",
       },
       {
-        title: "Release Risk Alerts",
-        description: "Flag missing assets, incomplete metadata, or tight deadlines before they become blockers.",
+        title: "Email Drafting",
+        description: "Help draft or trigger emails when required data is missing from artists or collaborators.",
       },
       {
-        title: "Timeline Optimization",
-        description: "Suggest ideal release dates based on market activity and historical performance.",
+        title: "Asset Upload Links",
+        description: "Create shareable links for artists to upload missing assets directly into the system.",
       },
       {
-        title: "Smart Task Routing",
-        description: "Auto-assign tasks to the right team member based on workload and expertise.",
+        title: "Add Contributors",
+        description: "Add contributors and people to songs without navigating through complex forms.",
+      },
+      {
+        title: "Artist Database",
+        description: "Add new artists to the database — all within the boundaries of your label's system.",
       },
     ],
   },
   {
-    id: "executive",
-    category: "Executive Intelligence",
+    id: "philosophy",
+    category: "Built for Labels — Not for Hype",
     items: [
       {
-        title: "Weekly Briefs",
-        description: "Automated summaries of label activity, releases, and key metrics delivered weekly.",
+        title: "Real Data, Real Results",
+        description: "Dave works with your real label data — not generic models or hypothetical scenarios.",
       },
       {
-        title: "Portfolio Summaries",
-        description: "Bird's-eye performance view across your entire catalog and artist roster.",
+        title: "Respects Permissions",
+        description: "Dave respects your label's permission structure, ensuring data stays where it belongs.",
       },
       {
-        title: "Forecast Snapshots",
-        description: "Revenue and streaming projections based on release pipeline and historical data.",
+        title: "Operations, Not Creativity",
+        description: "Dave focuses on operational efficiency. He doesn't create music or replace creative decisions.",
       },
       {
-        title: "Trend Monitoring",
-        description: "Track emerging genres, sounds, and market shifts relevant to your catalog.",
+        title: "Reduced Friction",
+        description: "Dave helps reduce friction in complex release workflows — an operational intelligence layer on top of your label.",
       },
     ],
   },
@@ -184,11 +218,11 @@ export default function AIPage() {
               transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#93c5fd]"
             >
-              AI Intelligence
+              Label Intelligence
             </motion.p>
 
             <h1 className="mt-5 text-[36px] font-black leading-[1.04] tracking-tight text-white sm:text-[56px] md:text-[72px] lg:text-[88px]">
-              {["Your", "label's"].map((word, i) => (
+              {["AI", "is", "here!"].map((word, i) => (
                 <motion.span
                   key={`w1-${i}`}
                   initial={{ opacity: 0, y: 50 }}
@@ -198,25 +232,38 @@ export default function AIPage() {
                 >
                   {word}
                 </motion.span>
-              ))}{" "}
+              ))}
+              <br />
+              {["Meet"].map((word, i) => (
+                <motion.span
+                  key={`w2-${i}`}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.45 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                  className="mr-[0.22em] inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
               <motion.span
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.8, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-block bg-gradient-to-r from-[#93c5fd] to-[#0000d8] bg-clip-text text-transparent"
               >
-                AI copilot.
+                Dave.
               </motion.span>
             </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-[#bfdbfe] sm:text-[19px]"
             >
-              AI that understands your projects, deadlines, catalog, and release readiness —
-              accelerating decisions across every workflow.
+              Meet Dave, (y)our AI Assistant that works seamlessly together with your label data.
+              He doesn&apos;t create music. He doesn&apos;t replace creative decisions.
+              He helps labels work smarter, faster, and with more clarity.
             </motion.p>
           </div>
 
@@ -276,7 +323,7 @@ export default function AIPage() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#93c5fd]"
               >
-                AI Dashboard Preview
+                Ready to experience Dave?
               </motion.p>
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
@@ -285,13 +332,13 @@ export default function AIPage() {
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-4 text-[28px] font-black text-white sm:text-[36px]"
               >
-                Intelligence at your fingertips
+                An operational intelligence layer on top of your label
               </motion.h2>
               <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-4 sm:gap-6">
                 {[
-                  { label: "Active releases", value: "12" },
-                  { label: "Risk alerts", value: "3" },
-                  { label: "Tasks auto-routed", value: "47" },
+                  { label: "Catalog queries", value: "∞" },
+                  { label: "Blockers detected", value: "24/7" },
+                  { label: "Tasks organized", value: "Auto" },
                 ].map((stat, i) => (
                   <motion.div
                     key={stat.label}
@@ -327,7 +374,7 @@ export default function AIPage() {
               href="/get-started"
               className="inline-flex items-center rounded-full bg-[#0000d8] px-10 py-5 text-[14px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:scale-[1.04] hover:bg-[#1d4ed8] hover:shadow-[0_8px_30px_rgba(0,0,216,0.3)]"
             >
-              Try AI features
+              Start using Dave
             </Link>
           </motion.div>
         </div>
