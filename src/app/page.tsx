@@ -543,7 +543,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mx-auto mt-6 flex max-w-4xl items-center justify-center overflow-hidden sm:mt-8">
+          <div className="mx-auto mt-6 flex max-w-4xl items-center justify-center overflow-hidden sm:mt-8 sm:overflow-visible">
             <div className="relative px-4 py-8 sm:px-12 sm:py-12" ref={toolsRef}>
               <div className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0 rounded-[40px] bg-[#0000d8] blur-3xl opacity-90 sm:-inset-x-16 sm:-inset-y-10 sm:rounded-[60px]" />
               <div className="relative z-10 grid grid-cols-4 gap-3 text-xs text-[#f8fafc] sm:gap-6 sm:text-sm">
@@ -598,7 +598,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative z-10 -mx-4 w-[calc(100%+2rem)] bg-[#0a0e27] px-5 py-14 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:bg-white sm:px-8 sm:py-24 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
+        <section className="relative z-10 -mx-4 w-[calc(100%+2rem)] bg-[#0a0e27] px-5 py-14 sm:left-1/2 sm:-mx-0 sm:w-screen sm:-translate-x-1/2 sm:bg-white sm:px-8 sm:py-24 lg:px-12">
           <div className="mx-auto max-w-6xl space-y-10 sm:space-y-20">
             {/* Mobile: scrollable pills + images */}
             <div className="sm:hidden">
