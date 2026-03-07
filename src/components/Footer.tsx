@@ -47,8 +47,6 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden bg-[#0a0e27] pt-16 sm:pt-24">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-px w-full max-w-6xl -translate-x-1/2 bg-gradient-to-r from-transparent via-[#0000d8]/40 to-transparent" />
-
       <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[400px] w-[600px] -translate-x-1/2 rounded-full bg-[#0000d8]/[0.06] blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-8 lg:px-12">

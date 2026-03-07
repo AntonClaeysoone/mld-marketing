@@ -531,7 +531,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      <main className="mx-auto flex max-w-6xl flex-col gap-16 px-4 pb-16 pt-8 sm:gap-28 sm:pb-24 sm:pt-10 sm:px-8 lg:px-12 lg:pt-12">
+      <main className="mx-auto flex max-w-6xl flex-col gap-16 px-4 pt-8 sm:gap-28 sm:pt-10 sm:px-8 lg:px-12 lg:pt-12">
         <section className="-mx-4 space-y-8 bg-[#0a0e27] px-4 pt-12 pb-6 text-[#f8fafc] sm:-mx-8 sm:space-y-12 sm:px-8 sm:pt-16 sm:pb-8 lg:-mx-12 lg:px-12">
           <div className="mx-auto max-w-6xl space-y-5">
             <h2 className="text-[28px] font-black leading-[1.05] sm:text-[46px] md:text-[66px] lg:text-[92px]">
@@ -801,64 +801,61 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Scroll-linked text reveal */}
-        <section ref={revealRef} className="relative -mx-4 w-[calc(100%+2rem)] px-4 py-24 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:px-8 sm:py-40 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
-          <div className="mx-auto max-w-5xl">
-            <p className="flex flex-wrap text-[26px] font-black leading-[1.35] tracking-tight text-[#f8fafc] sm:text-[38px] md:text-[50px] lg:text-[62px]">
-              {("One platform to scout, plan, ship, and grow. No more switching between tools. No more lost context. Just your label, running at full speed.").split(" ").map((word, i, arr) => {
-                const start = i / arr.length;
-                const end = start + 1 / arr.length;
-                return <ScrollWord key={i} word={word} range={[start, end]} progress={revealProgress} />;
-              })}
-            </p>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden px-4 py-24 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:px-8 sm:py-32 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0e27] via-[#0000d8]/20 to-[#0a0e27]" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0000d8]/15 blur-[120px] sm:h-[500px] sm:w-[500px]" />
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 mx-auto max-w-3xl text-center"
-          >
-            <h2 className="text-[32px] font-black leading-[1.06] text-white sm:text-[48px] md:text-[64px]">
-              Ready to run your label{" "}
-              <span className="bg-gradient-to-r from-[#93c5fd] to-[#0000d8] bg-clip-text text-transparent">smarter?</span>
-            </h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto mt-6 max-w-lg text-[17px] leading-relaxed text-[#bfdbfe] sm:text-[19px]"
-            >
-              Start your 14-day free trial. No credit card required.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-10"
-            >
-              <Link
-                href="/get-started"
-                className="inline-flex items-center rounded-full bg-white px-10 py-5 text-[14px] font-bold uppercase tracking-[0.2em] text-[#0000d8] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_30px_rgba(255,255,255,0.15)]"
-              >
-                Get started free
-              </Link>
-            </motion.div>
-          </motion.div>
-        </section>
-
-        <div className="relative -mx-4 w-[calc(100%+2rem)] sm:-mx-8 sm:w-[calc(100%+4rem)] lg:-mx-12 lg:w-[calc(100%+6rem)]">
-          <Footer />
-        </div>
       </main>
+
+      {/* Scroll-linked text reveal */}
+      <section ref={revealRef} className="px-4 py-24 sm:px-8 sm:py-40 lg:px-12">
+        <div className="mx-auto max-w-5xl">
+          <p className="flex flex-wrap text-[26px] font-black leading-[1.35] tracking-tight text-[#f8fafc] sm:text-[38px] md:text-[50px] lg:text-[62px]">
+            {("One platform to scout, plan, ship, and grow. No more switching between tools. No more lost context. Just your label, running at full speed.").split(" ").map((word, i, arr) => {
+              const start = i / arr.length;
+              const end = start + 1 / arr.length;
+              return <ScrollWord key={i} word={word} range={[start, end]} progress={revealProgress} />;
+            })}
+          </p>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative bg-[#0a0e27] px-4 py-24 sm:px-8 sm:py-32 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 mx-auto max-w-3xl text-center"
+        >
+          <h2 className="text-[32px] font-black leading-[1.06] text-white sm:text-[48px] md:text-[64px]">
+            Ready to run your label{" "}
+            <span className="bg-gradient-to-r from-[#93c5fd] to-[#0000d8] bg-clip-text text-transparent">smarter?</span>
+          </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto mt-6 max-w-lg text-[17px] leading-relaxed text-[#bfdbfe] sm:text-[19px]"
+          >
+            Start your 14-day free trial. No credit card required.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10"
+          >
+            <Link
+              href="/get-started"
+              className="inline-flex items-center rounded-full bg-white px-10 py-5 text-[14px] font-bold uppercase tracking-[0.2em] text-[#0000d8] transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_8px_30px_rgba(255,255,255,0.15)]"
+            >
+              Get started free
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
