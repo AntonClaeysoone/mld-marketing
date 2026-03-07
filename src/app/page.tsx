@@ -129,7 +129,7 @@ function BecomePartnerFormCard() {
   return (
     <div
       className={cn(
-        "col-span-1 flex flex-col justify-center overflow-hidden rounded-xl px-6 py-8",
+        "relative col-span-1 flex flex-col justify-center overflow-hidden rounded-xl px-6 py-8",
         "border border-[#1e293b]/80 bg-[#0a0e27] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)]",
         "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
       )}
@@ -448,7 +448,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0e27] text-[#0a0e27]">
+    <div className="min-h-screen overflow-x-hidden bg-[#0a0e27] text-[#0a0e27]">
       <Navbar />
 
       <motion.section
@@ -543,9 +543,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mx-auto mt-6 flex max-w-4xl items-center justify-center sm:mt-8">
+          <div className="mx-auto mt-6 flex max-w-4xl items-center justify-center overflow-hidden sm:mt-8">
             <div className="relative px-4 py-8 sm:px-12 sm:py-12" ref={toolsRef}>
-              <div className="pointer-events-none absolute -inset-x-8 -inset-y-6 z-0 rounded-[40px] bg-[#0000d8] blur-3xl opacity-90 sm:-inset-x-16 sm:-inset-y-10 sm:rounded-[60px]" />
+              <div className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0 rounded-[40px] bg-[#0000d8] blur-3xl opacity-90 sm:-inset-x-16 sm:-inset-y-10 sm:rounded-[60px]" />
               <div className="relative z-10 grid grid-cols-4 gap-3 text-xs text-[#f8fafc] sm:gap-6 sm:text-sm">
                 {tools.map((tool, index) => (
                   <motion.div
@@ -598,7 +598,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative z-10 left-1/2 w-screen -translate-x-1/2 bg-[#0a0e27] px-5 py-14 sm:bg-white sm:px-8 sm:py-24 lg:px-12">
+        <section className="relative z-10 -mx-4 w-[calc(100%+2rem)] bg-[#0a0e27] px-5 py-14 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:bg-white sm:px-8 sm:py-24 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
           <div className="mx-auto max-w-6xl space-y-10 sm:space-y-20">
             {/* Mobile: scrollable pills + images */}
             <div className="sm:hidden">
@@ -788,7 +788,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-5xl sm:left-1/2 sm:w-[calc(100vw-4rem)] sm:-translate-x-1/2 lg:w-[calc(100vw-6rem)]"
+                className="mx-auto w-full max-w-5xl"
               >
                 <BentoGrid className="lg:grid-rows-3">
                   <BecomePartnerFormCard />
@@ -802,7 +802,7 @@ export default function Home() {
         </section>
 
         {/* Scroll-linked text reveal */}
-        <section ref={revealRef} className="relative left-1/2 w-screen -translate-x-1/2 px-4 py-24 sm:px-8 sm:py-40 lg:px-12">
+        <section ref={revealRef} className="relative -mx-4 w-[calc(100%+2rem)] px-4 py-24 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:px-8 sm:py-40 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
           <div className="mx-auto max-w-5xl">
             <p className="flex flex-wrap text-[26px] font-black leading-[1.35] tracking-tight text-[#f8fafc] sm:text-[38px] md:text-[50px] lg:text-[62px]">
               {("One platform to scout, plan, ship, and grow. No more switching between tools. No more lost context. Just your label, running at full speed.").split(" ").map((word, i, arr) => {
@@ -815,9 +815,9 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden px-4 py-24 sm:px-8 sm:py-32 lg:px-12">
+        <section className="relative -mx-4 w-[calc(100%+2rem)] overflow-hidden px-4 py-24 sm:-mx-8 sm:w-[calc(100%+4rem)] sm:px-8 sm:py-32 lg:-mx-12 lg:w-[calc(100%+6rem)] lg:px-12">
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a0e27] via-[#0000d8]/20 to-[#0a0e27]" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0000d8]/15 blur-[120px]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0000d8]/15 blur-[120px] sm:h-[500px] sm:w-[500px]" />
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -855,7 +855,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <div className="relative left-1/2 w-screen -translate-x-1/2">
+        <div className="relative -mx-4 w-[calc(100%+2rem)] sm:-mx-8 sm:w-[calc(100%+4rem)] lg:-mx-12 lg:w-[calc(100%+6rem)]">
           <Footer />
         </div>
       </main>
