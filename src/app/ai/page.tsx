@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -181,47 +182,19 @@ export default function AIPage() {
 
   const heroY = useTransform(heroProgress, [0, 1], ["0%", "25%"]);
   const heroOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
-  const orbScale = useTransform(heroProgress, [0, 0.5], [1, 1.3]);
-  const orbOpacity = useTransform(heroProgress, [0, 0.6], [0.6, 0]);
 
   return (
     <div className="min-h-screen bg-[#0a0e27] text-[#0a0e27]">
       <Navbar />
 
       {/* Hero with animated orb */}
-      <section ref={heroRef} className="relative overflow-hidden bg-gradient-to-b from-[#0a0e27] via-[#020617] to-[#0a0e27] pb-24 pt-6">
-        {/* Animated orb */}
-        <motion.div
-          style={{ scale: orbScale, opacity: orbOpacity }}
-          className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2"
-        >
-          <div className="relative h-[400px] w-[400px] sm:h-[500px] sm:w-[500px]">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 rounded-full bg-gradient-conic from-[#0000d8]/40 via-transparent to-[#93c5fd]/30 blur-[60px]"
-              style={{ background: "conic-gradient(from 0deg, rgba(0,0,216,0.4), transparent, rgba(147,197,253,0.3), transparent)" }}
-            />
-            <div className="absolute inset-12 rounded-full bg-gradient-to-b from-[#0000d8]/20 to-transparent blur-[40px]" />
-            <div className="absolute inset-24 rounded-full bg-[#020617]/80" />
-          </div>
-        </motion.div>
-
+      <section ref={heroRef} className="relative overflow-hidden bg-gradient-to-b from-[#0a0e27] via-[#020617] to-[#0a0e27] pb-10 pt-6 sm:pb-14">
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 mx-auto max-w-6xl px-4 sm:px-8 lg:px-12"
         >
-          <div className="pt-28 text-center sm:pt-36">
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[13px] font-medium uppercase tracking-[0.3em] text-[#93c5fd]"
-            >
-              Label Intelligence
-            </motion.p>
-
-            <h1 className="mt-5 text-[36px] font-black leading-[1.04] tracking-tight text-white sm:text-[56px] md:text-[72px] lg:text-[88px]">
+          <div className="pt-24 text-center sm:pt-28">
+            <h1 className="text-[36px] font-black leading-[1.04] tracking-tight text-white sm:text-[56px] md:text-[72px] lg:text-[88px]">
               {["AI", "is", "here!"].map((word, i) => (
                 <motion.span
                   key={`w1-${i}`}
@@ -255,11 +228,27 @@ export default function AIPage() {
               </motion.span>
             </h1>
 
+            <motion.div
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto mt-5 h-28 w-28 overflow-hidden rounded-full border-[3px] border-[#0000d8]/40 shadow-[0_0_40px_rgba(0,0,216,0.3)] sm:mt-6 sm:h-36 sm:w-36"
+            >
+              <Image
+                src="/Dave.png"
+                alt="Dave — MyLabelDesk AI Assistant"
+                width={160}
+                height={160}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </motion.div>
+
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-[#bfdbfe] sm:text-[19px]"
+              transition={{ duration: 0.8, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-[#bfdbfe] sm:text-[17px]"
             >
               Meet Dave, (y)our AI Assistant that works seamlessly together with your label data.
               He doesn&apos;t create music. He doesn&apos;t replace creative decisions.
@@ -272,7 +261,7 @@ export default function AIPage() {
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.7, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto mt-16 flex h-24 max-w-lg items-end justify-center gap-[3px] sm:h-32 sm:gap-1"
+            className="mx-auto mt-8 flex h-16 max-w-lg items-end justify-center gap-[3px] sm:mt-10 sm:h-20 sm:gap-1"
           >
             {Array.from({ length: 32 }).map((_, i) => {
               const center = 16;

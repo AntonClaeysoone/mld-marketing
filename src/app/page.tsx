@@ -129,7 +129,7 @@ function BecomePartnerFormCard() {
   return (
     <div
       className={cn(
-        "col-span-3 flex flex-col justify-center overflow-hidden rounded-xl px-6 py-8",
+        "col-span-1 flex flex-col justify-center overflow-hidden rounded-xl px-6 py-8",
         "border border-[#1e293b]/80 bg-[#0a0e27] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)]",
         "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
       )}
@@ -258,7 +258,7 @@ const partnerFeatures = [
         />
       </div>
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    className: "min-h-[16rem] sm:min-h-0 lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
   },
   {
     Icon: Globe,
@@ -278,7 +278,7 @@ const partnerFeatures = [
         />
       </div>
     ),
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+    className: "min-h-[10rem] sm:min-h-0 lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
   },
   {
     Icon: Sparkles,
@@ -298,7 +298,7 @@ const partnerFeatures = [
         />
       </div>
     ),
-    className: "lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-2",
+    className: "min-h-[10rem] sm:min-h-0 lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-2",
   },
   {
     Icon: Handshake,
@@ -317,7 +317,7 @@ const partnerFeatures = [
         />
       </div>
     ),
-    className: "lg:col-start-3 lg:col-end-4 lg:row-start-2 lg:row-end-4",
+    className: "min-h-[16rem] sm:min-h-0 lg:col-start-3 lg:col-end-4 lg:row-start-2 lg:row-end-4",
   },
 ];
 
@@ -788,7 +788,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="relative left-1/2 w-[calc(100vw-2rem)] max-w-5xl -translate-x-1/2 sm:w-[calc(100vw-4rem)] lg:w-[calc(100vw-6rem)]"
+                className="relative w-full max-w-5xl sm:left-1/2 sm:w-[calc(100vw-4rem)] sm:-translate-x-1/2 lg:w-[calc(100vw-6rem)]"
               >
                 <BentoGrid className="lg:grid-rows-3">
                   <BecomePartnerFormCard />
