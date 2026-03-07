@@ -251,7 +251,7 @@ const partnerFeatures = [
     background: (
       <div className="absolute inset-0">
         <Image
-          src={encodeURI("/PartnerPicturesBig/Mylabeldesk x Paraiso Yordi.jpg")}
+          src={encodeURI("/PartnerPicturesBig/MylabeldeskParaisoYordi.jpg")}
           alt=""
           fill
           className="object-cover"
@@ -310,7 +310,7 @@ const partnerFeatures = [
     background: (
       <div className="absolute inset-0">
         <Image
-          src={encodeURI("/PartnerPicturesBig/Mylabeldesk x Paraiso thierry.jpg")}
+          src={encodeURI("/PartnerPicturesBig/MylabeldeskParaisoThierry.jpg")}
           alt=""
           fill
           className="object-cover"
