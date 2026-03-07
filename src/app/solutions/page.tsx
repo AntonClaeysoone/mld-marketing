@@ -84,6 +84,20 @@ const solutions = [
     description: "Present MyLabelDesk as your own platform. Custom branding builds trust with artists, partners, and external stakeholders.",
     features: ["Branded emails and portals", "Theming controls", "Branded login and navigation", "Custom domain with SSL"],
   },
+  {
+    id: "customizable",
+    category: "Scale & Brand",
+    title: "Customizable Per Label",
+    description: "MyLabelDesk adapts to your label's needs. Need to gather custom assets like artwork moodboards or the background story of a track? Customize MyLabelDesk to fit your workflow.",
+    features: ["Custom asset collection fields", "Label-specific data structures", "Flexible intake forms", "Adaptable workflows per label"],
+  },
+  {
+    id: "distribution",
+    category: "Delivery",
+    title: "Distribution",
+    description: "We currently integrate with different distribution partners. Export your data and import it on your distribution platform seamlessly.",
+    features: ["Multi-distributor support", "Seamless data export", "Distribution-ready formatting", "Partner integrations"],
+  },
 ] as const;
 
 const categories = [...new Set(solutions.map((s) => s.category))];
